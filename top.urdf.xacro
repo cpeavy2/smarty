@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:macro name="top" params="length width height mass">
+    <xacro:include filename="$(find linorobot2_description)/urdf/mech/leg.urdf.xacro" />
+    
+    <link name="top_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="${length} ${width} ${height}"/>
+          <!-- <mesh filename="" scale="0.001 0.001 0.001"/> -->
+        </geometry>
+        <material name="yellow">
+          <color rgba="0.8784 0.6627 0.6627 1.0"/>
+        </material>
+      </visual>
+      
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="${length} ${width} ${height}"/>
+        </geometry>
+      </collision>
+
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="${mass}"/>
+        <inertia ixx="${(1/12) * mass * ((width  * width)  + (height * height))}" ixy="0.0" ixz="0.0"
+                 iyy="${(1/12) * mass * ((length * length) + (height * height))}" iyz="0.0"
+                 izz="${(1/12) * mass * ((length * length) + (width  * width))}"/>
+      </inertial>
+    </link>
+
+    <gazebo reference="base_link">  
+      <visual>  
+        <material>
+          <ambient>0.8392 0.6314 0.0 1.0</ambient>  
+          <diffuse>0.8392 0.6314 0.0 1.0</diffuse>  
+          <specular>0.99 0.99 0.99 1.0</specular>  
+          <emissive>0.0 0.0 0.0 0.0</emissive>  
+        </material>
+      </visual> 
+    </gazebo>
+
+    <joint name="top_to_base" type="fixed">
+      <parent link="base_link"/>
+      <child link="top_link"/>
+      <origin xyz="0 0 0.5" rpy="0 0 0"/>
+    </joint>
+
+    <xacro:leg 
+      name="r_front"
+      radius="0.0125" 
+      width="0.5" 
+      pos_x="${.2286}" 
+      pos_y="${-.2286}"          
+      pos_z="0.25" 
+      mass="0.01"
+    />
+
+    <xacro:leg 
+      name="l_front"
+      radius="0.0125" 
+      width="0.5" 
+      pos_x="${-.2286}" 
+      pos_y="${.2286}"          
+      pos_z="0.25" 
+      mass="0.01"
+    />
+
+    <xacro:leg 
+      name="r_rear"
+      radius="0.0125" 
+      width="0.5" 
+      pos_x="${.2286}" 
+      pos_y="${.2286}"          
+      pos_z="0.25" 
+      mass="0.01"
+    />
+
+    <xacro:leg 
+      name="l_rear"
+      radius="0.0125" 
+      width="0.5" 
+      pos_x="${-0.22869}" 
+      pos_y="${-0.22869}"          
+      pos_z="0.25" 
+      mass="0.01"
+    />
+
+</xacro:macro>
+</robot>
